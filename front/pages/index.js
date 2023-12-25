@@ -26,7 +26,7 @@ export default function Home() {
     console.log(JSON.stringify({ username, password }));
     e.preventDefault();
     try {
-      const response = await fetch('http://127.0.0.1:3000/auth/control', {
+      const response = await fetch('http://localhost:4000/auth/control', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

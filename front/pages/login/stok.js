@@ -22,7 +22,7 @@ export default function stok() {
     };
     
     const fetchStokListesi = () => {
-      fetch("http://localhost:3000/stok", requestOptions)
+      fetch("http://localhost:4000/stok", requestOptions)
           .then(response => response.json())
           .then(data => {
               if (Array.isArray(data)) {
@@ -75,7 +75,7 @@ export default function stok() {
       try {
         // Seçilen her bir stok ID'si için ayrı bir DELETE isteği gönder
         const deleteRequests = selectedStok.map(id =>
-          fetch(`http://localhost:3000/stok/${id}`, { method: 'DELETE' })
+          fetch(`http://localhost:4000/stok/${id}`, { method: 'DELETE' })
         );
         await Promise.all(deleteRequests);
     
