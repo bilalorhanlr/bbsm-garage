@@ -9,7 +9,7 @@ export class CardEntity {
   adSoyad: string;
 
   @Column({ nullable: true })
-  telNo: number;
+  telNo: String;
 
   @Column({ nullable: true })
   markaModel: string;

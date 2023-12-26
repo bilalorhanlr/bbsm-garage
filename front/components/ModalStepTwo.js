@@ -1,58 +1,64 @@
-// IkinciModal.js
 import React, { useState } from 'react';
-import './IlkModal.js';
-import './AnaBilesen.js';
+import './Wizard.js';
+import './ModalStepOne.js';
 
-const IkinciModal = ({ onIkinciModalClose, ilkModalBilgi, onClose }) => {
+
+const ModalStepTwo = ({ isOpen, onClose, onBack, onSaveAndClose, kartBilgileri}) => {
   const [birimAdedi, setBirimAdedi] = useState('');
   const [parcaAdi, setParcaAdi] = useState('');
   const [birimFiyati, setBirimFiyati] = useState('');
-  const [yapilanlar, setYapilanlar] = useState([]);
+  const [items, setItems] = useState([]);
 
-  const handleIkinciModalSubmit = () => {
-    const ikinciModalBilgiler = {
-      birimAdedi,
-      parcaAdi,
-      birimFiyati,
-      toplamFiyat: Number(birimAdedi) * Number(birimFiyati),
-    };
-    setYapilanlar([...yapilanlar, ikinciModalBilgiler]);
+  const handleSave = () => {
+    onSaveAndClose(items); // ParentComponent'tan gelen onSaveAndClose fonksiyonunu çağır
+  };
 
+  const handleAddClick = () => {
     if (!birimAdedi || !parcaAdi || !birimFiyati) {
       alert("Lütfen tüm alanları doldurun.");
       return;
     }
     if (birimAdedi && parcaAdi && birimFiyati) {
-      // setItems([...ilkModalBilgi, ikinciModalBilgiler]);
+      const newItem = {
+        birimAdedi,
+        parcaAdi,
+        birimFiyati,
+        toplamFiyat: Number(birimAdedi) * Number(birimFiyati),
+      };
+      setItems([...items, newItem]);
 
       // Clear the input fields
       setBirimAdedi('');
       setParcaAdi('');
       setBirimFiyati('');
     }
-    console.log("ilk,",ilkModalBilgi);
-    console.log("ikinci,",ikinciModalBilgiler);
-    console.log("yapılanlar",yapilanlar);
   };
 
-
   const handleClearItems = () => {
-    setYapilanlar([]); // Tüm öğeleri temizle
+    setItems([]); // Tüm öğeleri temizle
   };
 
   const handleCloseAndClear = () => {
     handleClearItems(); // İlk olarak formu temizle
-    onClose();
+    onClose();         // Sonra modalı kapat
   };
 
-  const handleRemoveItem = (index) => {
-    const yeniYapilanlar = yapilanlar.filter((_, i) => i !== index);
-    setYapilanlar(yeniYapilanlar);
-  };  
+  const handleRemoveItem = (indexToRemove) => {
+    setItems(items.filter((_, index) => index !== indexToRemove));
+  };
+
+
+  const handleSaveAsOffer = () => {
+    // Burada teklif olarak kaydetme işlemleri olacak
+    console.log('Offer saved', items);
+    // onClose(); // Modal kapat
+  };
+
+  if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-500 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center backdrop-blur-sm backdrop-brightness-30">
-      <div className="bg-white rounded-lg max-w-4xl w-full mx-4 md:mx-0">
+    <div className="fixed inset-0 bg-gray-500 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center backdrop-blur-sm backdrop-brightness-30" onClick={onClose}>
+      <div className="bg-white rounded-lg max-w-4xl w-full mx-4 md:mx-0" onClick={e => e.stopPropagation()}>
         <div className="flex justify-between items-center p-5 border-b border-gray-200 ">
           <h3 className="text-xl font-medium text-gray-900">Kart Ekle - Aşama 2</h3>
           <button onClick={handleCloseAndClear}>
@@ -88,7 +94,11 @@ const IkinciModal = ({ onIkinciModalClose, ilkModalBilgi, onClose }) => {
               className="border p-2 rounded-md bg-my-beyaz"
             />
           </div>
-
+          {/* <p>İlk Modal Bilgisi: {ilkModalBilgi}</p> */}
+          {
+            /* İkinci modalın içeriği buraya gelecek */
+            fonk()
+          }
           <div className="flex justify-end mb-4">
             <button onClick={handleIkinciModalSubmit} className="bg-yellow-500 text-white font-semibold text-md rounded-full p-2 pl-6 pr-6 ">
               Ekle
@@ -111,13 +121,13 @@ const IkinciModal = ({ onIkinciModalClose, ilkModalBilgi, onClose }) => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-              {yapilanlar.map((asd, index) => (
+                {items.map((item, index) => (
                   <tr key={index}>
-                    <td className="px-6 py-4 whitespace-nowrap">{asd.birimAdedi}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{asd.parcaAdi}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{asd.birimFiyati}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{asd.toplamFiyat}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                    <td className="px-6 py-4 whitespace-nowrap">{item.birimAdedi}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{item.parcaAdi}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{item.birimFiyati}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{item.toplamFiyat}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <button onClick={() => handleRemoveItem(index)} className="text-red-500 hover:text-red-700">
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -130,19 +140,16 @@ const IkinciModal = ({ onIkinciModalClose, ilkModalBilgi, onClose }) => {
             </table>
           </div>
           <div className="flex justify-end mt-4 space-x-2 ">
-            <button onClick={onIkinciModalClose} className=" bg-gray-200 text-my-siyah font-semibold text-md rounded-full p-2 pl-6 pr-6 mr-10">
+            <button onClick={onBack} className=" bg-gray-200 text-my-siyah font-semibold text-md rounded-full p-2 pl-6 pr-6 mr-10">
               Geri Dön
             </button>
-            <button className=" bg-green-500 text-white font-semibold text-md rounded-full p-2 pl-4 pr-4 mr-4">
-            {/* onclick eksik */}
+            <button onClick={onClose} className=" bg-green-500 text-white font-semibold text-md rounded-full p-2 pl-4 pr-4 mr-4">
               Excel İndir
             </button>
-            <button className="bg-my-siyah text-white font-semibold text-md rounded-full p-2 pl-4 pr-4 mr-4"> 
-            {/* onclick eksik */}
+            <button onClick={handleSaveAsOffer} className="bg-my-siyah text-white font-semibold text-md rounded-full p-2 pl-4 pr-4 mr-4">
               Teklif Olarak Kaydet
             </button>
-            <button className="bg-my-mavi text-white font-semibold text-md rounded-full p-2 pl-8 pr-8 mr-4">
-              {/* onclick eksik */}
+            <button onClick={handleSave} className="bg-my-mavi text-white font-semibold text-md rounded-full p-2 pl-8 pr-8 mr-4">
               Kaydet
             </button>
           </div>
@@ -152,4 +159,4 @@ const IkinciModal = ({ onIkinciModalClose, ilkModalBilgi, onClose }) => {
   );
 };
 
-export default IkinciModal;
+export default ModalStepTwo;

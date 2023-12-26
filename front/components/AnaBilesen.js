@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import IlkModal from './IlkModal';
 import IkinciModal from './IkinciModal';
 
-const AnaBilesen = () => {
+const AnaBilesen = ({onClose,onKartEkle}) => {
   const [ilkModalGorunur, setIlkModalGorunur] = useState(true);
   const [ikinciModalGorunur, setIkinciModalGorunur] = useState(false);
   const [girilenBilgi, setGirilenBilgi] = useState('');
@@ -21,12 +21,19 @@ const AnaBilesen = () => {
     setIlkModalGorunur(true);
   };
 
+  const handleClose = () => {
+    setIkinciModalGorunur(false);
+    setIlkModalGorunur(false);
+    onClose();
+  };
+
   return (
     <div>
       {ilkModalGorunur && (
         <IlkModal
           onIlkModalSubmit={handleIlkModalSubmit}
           onIlkModalClose={() => setIlkModalGorunur(false)}
+          onClose={handleClose}
         />
       )}
 
@@ -34,6 +41,7 @@ const AnaBilesen = () => {
         <IkinciModal
           ilkModalBilgi={girilenBilgi}
           onIkinciModalClose={handleIkinciModalClose}
+          onClose={handleClose}
         />
       )}
     </div>

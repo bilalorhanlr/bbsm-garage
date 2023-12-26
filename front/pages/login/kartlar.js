@@ -82,7 +82,6 @@ export default function Kartlar() {
         <div className="p-6 pt-8 lg:ml-64 ">
           <div className="p-6 mt-20 bg-my-beyaz rounded-3xl">
             <div className="flex items-center pb-4 justify-between">
-
               <div className="flex items-center">
                 <div className="pr-4 items-center ">
                   <div className="flex flex-column sm:flex-row flex-wrap items-center justify-between ">
@@ -103,8 +102,10 @@ export default function Kartlar() {
                   <button className="font-semibold text-my-beyaz text-md">Yeni Kart Ekle</button>
                 </div>
                 {isYeniKartEkleModalOpen && (
-                  <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-md z-50">
-                    <AnaBilesen onClose={toggleYeniKartEkleModal} onKartEkle={handleKartEkle} />
+                  <div className="fixed inset-0 bg-gray-300 bg-opacity-50 z-40" onClick={toggleYeniKartEkleModal}>
+                    <div className="fixed top-1/2 left-1/2 p-6 rounded-md z-50" onClick={e => e.stopPropagation()}>
+                      <AnaBilesen onClose={toggleYeniKartEkleModal} onKartEkle={handleKartEkle} />
+                    </div>
                   </div>
                 )}
 
