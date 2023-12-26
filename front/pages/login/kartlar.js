@@ -7,9 +7,22 @@ import AnaBilesen from '@/components/AnaBilesen';
 export default function Kartlar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isYeniKartEkleModalOpen, setIsYeniKartEkleModalOpen] = useState(false);
-
+  const [kartlar, setKartlar] = useState([]);
+  const [iler, setIler] = useState([]);
 
   
+
+  const handleRemoveItem = (index) => {
+    const yeniKartlar = kartlar.filter((_, i) => i !== index);
+    setKartlar(yeniKartlar);
+  };  
+
+  const indexMemory = (index) => {
+    setIler([...iler, index]);
+    console.log("index", index);
+    console.log("iler", iler);
+  }
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -28,6 +41,25 @@ export default function Kartlar() {
     toggleYeniKartEkleModal();
   };
 
+  var requestOptions = {
+    method: 'GET',
+    redirect: 'follow'
+  };
+  
+  const fetchStokListesi = () => {
+    fetch("http://localhost:4000/card", requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            if (Array.isArray(data)) {
+                setKartlar(data);
+            }
+        })
+        .catch(error => console.log('error', error));
+    };
+
+    useEffect(() => {
+        fetchStokListesi();
+    }, []);
 
   return (
     <>
@@ -159,30 +191,31 @@ export default function Kartlar() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
+                {kartlar.map((qwe, index) => (
                 <tr>
                   <td className="w-4 p-4">
                     <div className="flex items-center">
                       <input type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" />
-                      <label className="sr-only">checkbox</label>
+                      <label htmlFor={`checkbox-table-${index}`} className="sr-only">checkbox</label>
                     </div>
                   </td>
                   <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-
+                    {qwe.adSoyad}
                   </td>
                   <td className="px-6 py-4">
-
+                    {qwe.markaModel}
                   </td>
                   <td className="px-6 py-4 text-green-500">
-
+                    {qwe.plaka}
                   </td>
                   <td className="px-6 py-4">
-
+                    {qwe.km}
                   </td>
                   <td className="px-6 py-4 uppercase">
-
+                    {qwe.sasi}
                   </td>
                   <td className="px-6 py-4 text-blue-500">
-
+                    {qwe.girisTarihi}
                   </td>
                   <td className="px-6 py-4">
                     <a href="#" className="bg-yellow-500 p-2 pl-4 pr-4 rounded-full font-medium text-my-siyah hover:underline">Detay</a>
@@ -191,6 +224,7 @@ export default function Kartlar() {
                     <a href="#" className="bg-green-500 p-2 pl-4 pr-4 rounded-full font-medium text-my-beyaz  hover:underline">Excel</a>
                   </td>
                 </tr>
+                ))}
               </tbody>
             </table>
           </div>
