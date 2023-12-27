@@ -8,20 +8,36 @@ export default function Kartlar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isYeniKartEkleModalOpen, setIsYeniKartEkleModalOpen] = useState(false);
   const [kartlar, setKartlar] = useState([]);
-  const [iler, setIler] = useState([]);
+  const [secilenKartlar, setSecilenKartlar] = useState([]);
+  const [aramaTerimi, setAramaTerimi] = useState('');
 
-  
 
-  const handleRemoveItem = (index) => {
-    const yeniKartlar = kartlar.filter((_, i) => i !== index);
-    setKartlar(yeniKartlar);
-  };  
 
-  const indexMemory = (index) => {
-    setIler([...iler, index]);
-    console.log("index", index);
-    console.log("iler", iler);
-  }
+  const handleCheckboxChange = (e, kartId) => {
+    if (e.target.checked) {
+      setSecilenKartlar([...secilenKartlar, kartId]);
+    } else {
+      setSecilenKartlar(secilenKartlar.filter(id => id !== kartId));
+    }
+  };
+
+  const silSecilenleri = async () => {
+    try {
+      // Seçilen her bir kart ID'si için ayrı bir DELETE isteği gönder
+      const deleteRequests = secilenKartlar.map(kartId =>
+        fetch(`http://localhost:4000/card/${kartId}`, { method: 'DELETE' })
+      );
+      await Promise.all(deleteRequests);
+
+      // UI'dan silinen öğeleri kaldır
+      const guncellenmisKartlar = kartlar.filter(kart => !secilenKartlar.includes(kart.id));
+      setKartlar(guncellenmisKartlar);
+      setSecilenKartlar([]); // Seçimleri sıfırla
+    } catch (error) {
+      console.error('Silme işlemi sırasında hata oluştu', error);
+    }
+  };
+
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -60,6 +76,27 @@ export default function Kartlar() {
     useEffect(() => {
         fetchStokListesi();
     }, []);
+
+    function formatTarih(tarihString) {
+      return new Date(tarihString).toLocaleDateString('tr-TR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    };
+
+    function formatKm(km) {
+      return km.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    };
+
+    const filtrelenmisKartlar = kartlar.filter(kart => 
+      kart.adSoyad.toLowerCase().includes(aramaTerimi.toLowerCase()) || 
+      kart.markaModel.toLowerCase().includes(aramaTerimi.toLowerCase()) ||
+      kart.plaka.toLowerCase().includes(aramaTerimi.toLowerCase()) ||
+      kart.sasi.toLowerCase().includes(aramaTerimi.toLowerCase()) ||
+      kart.km.toString().includes(aramaTerimi) ||
+      new Date(kart.girisTarihi).toLocaleDateString('tr-TR').includes(aramaTerimi)
+    );    
 
   return (
     <>
@@ -124,7 +161,7 @@ export default function Kartlar() {
 
               <div className="flex items-center">
                 <div className="items-center bg-red-600 p-2 pl-4 pr-4 rounded-full ml-4">
-                  <button href="" className="font-semibold text-my-beyaz text-md">Seçilenleri Sil</button>
+                  <button onClick={silSecilenleri} className="font-semibold text-my-beyaz text-md">Seçilenleri Sil</button>
                 </div>
                 <div className="items-center bg-green-500 p-2 pl-4 pr-4 rounded-full ml-4">
                   <button href="" className="font-semibold text-my-beyaz text-md">Seçilenleri İndir</button>
@@ -148,7 +185,11 @@ export default function Kartlar() {
                       <div className="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none">
                         <svg className="w-5 h-5 text-gray-500 " aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path></svg>
                       </div>
-                      <input type="text" id="table-search" className="block p-2 ps-10 text-md text-gray-900 border border-gray-300 rounded-full w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search for items" />
+                      <input type="text" id="table-search"
+                        className="block p-2 ps-10 text-md text-gray-900 border border-gray-300 rounded-full w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Kartları ara"
+                        value={aramaTerimi}
+                        onChange={(e) => setAramaTerimi(e.target.value)} />
                     </div>
                   </div>
                 </div>
@@ -159,10 +200,6 @@ export default function Kartlar() {
               <thead className="text-xs text-gray-600 uppercase bg-my-edbeyaz">
                 <tr>
                   <th scope="col" className="p-4">
-                    <div className="flex items-center">
-                      <input id="checkbox-all-search" type="checkbox" className="w-4 h-4 bg-white border-white text-my-beyaz " />
-                      <label htmlFor="checkbox-all-search" className="sr-only">checkbox</label>
-                    </div>
                   </th>
                   <th scope="col" className="px-6 py-3">
                     Ad-Soyad
@@ -191,13 +228,13 @@ export default function Kartlar() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {kartlar.map((qwe, index) => (
+                {filtrelenmisKartlar.map((qwe, index) => (
                 <tr>
                   <td className="w-4 p-4">
                     <div className="flex items-center">
-                      <input type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" />
-                      <label htmlFor={`checkbox-table-${index}`} className="sr-only">checkbox</label>
-                    </div>
+                        <input type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" checked={secilenKartlar.includes(qwe.id)} onChange={(e) => handleCheckboxChange(e, qwe.id)}/>
+                        <label htmlFor={`checkbox-table-${index}`} className="sr-only">checkbox</label>
+                      </div>
                   </td>
                   <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     {qwe.adSoyad}
@@ -209,13 +246,13 @@ export default function Kartlar() {
                     {qwe.plaka}
                   </td>
                   <td className="px-6 py-4">
-                    {qwe.km}
+                    {formatKm(qwe.km)}
                   </td>
                   <td className="px-6 py-4 uppercase">
                     {qwe.sasi}
                   </td>
                   <td className="px-6 py-4 text-blue-500">
-                    {qwe.girisTarihi}
+                    {formatTarih(qwe.girisTarihi)}
                   </td>
                   <td className="px-6 py-4">
                     <a href="#" className="bg-yellow-500 p-2 pl-4 pr-4 rounded-full font-medium text-my-siyah hover:underline">Detay</a>
