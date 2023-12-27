@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import IlkModal from './IlkModal';
 import IkinciModal from './IkinciModal';
 
-const AnaBilesen = ({onClose,onKartEkle}) => {
+const AnaBilesen = ({onClose}) => {
   const [ilkModalGorunur, setIlkModalGorunur] = useState(true);
   const [ikinciModalGorunur, setIkinciModalGorunur] = useState(false);
   const [girilenBilgi, setGirilenBilgi] = useState('');

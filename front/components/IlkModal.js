@@ -9,6 +9,7 @@ const IlkModal = ({ onIlkModalClose, onIlkModalSubmit ,onClose}) => {
   const [girisTarihi, setGirisTarihi] = useState('');
   const [plaka, setPlaka] = useState('');
   const [km, setKm] = useState('');
+  const [modelYili, setModelYili] = useState('');
   const [sasi, setSasi] = useState('');
   const [renk, setRenk] = useState('');
   const [adres, setAdres] = useState('');
@@ -23,6 +24,7 @@ const IlkModal = ({ onIlkModalClose, onIlkModalSubmit ,onClose}) => {
       girisTarihi,
       plaka,
       km,
+      modelYili,
       sasi,
       renk,
       adres,
@@ -41,6 +43,7 @@ const IlkModal = ({ onIlkModalClose, onIlkModalSubmit ,onClose}) => {
     setDatee('');
     setPlaka('');
     setKm('');
+    setModelYili('');
     setSasi('');
     setRenk('');
     setAdres('');
@@ -59,7 +62,7 @@ const IlkModal = ({ onIlkModalClose, onIlkModalSubmit ,onClose}) => {
               </svg>
             </button>
           </div>
-          <div className="p-12 pl-16 pr-16">
+          <div className="p-8 pl-16 pr-16">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input type="text" id="adSoyad" placeholder="Ad Soyad" value={adSoyad} onChange={e => setAdSoyad(e.target.value)} className="bg-my-beyaz border p-2 rounded-md" />
               <input type="number" id="telNo" placeholder="telefon no" pattern="\d{10}" value={telNo} onChange={e => setTelNo(e.target.value)} className="bg-my-beyaz border p-2 rounded-md" />
@@ -67,12 +70,13 @@ const IlkModal = ({ onIlkModalClose, onIlkModalSubmit ,onClose}) => {
               <input type="date" id="girisTarihi" placeholder="Giriş Tarihi" value={girisTarihi} onChange={e => setGirisTarihi(e.target.value)} className="bg-my-beyaz border p-2 rounded-md" />
               <input type="text" id="plaka" placeholder="Plaka" value={plaka} onChange={e => setPlaka(e.target.value)} className="bg-my-beyaz border p-2 rounded-md" />
               <input type="number" id="km" placeholder="Km" value={km} onChange={e => setKm(e.target.value)} className="bg-my-beyaz border p-2 rounded-md" />
-              <input type="text" id="sasi" placeholder="Şasi No" value={sasi} onChange={e => setSasi(e.target.value)} className="bg-my-beyaz border p-2 rounded-md" />
+              <input type="text" id="sasi" placeholder="Şasi No" value={sasi} onChange={e => setSasi(e.target.value)} className="bg-my-beyaz border p-2 rounded-md col-span-2" />
+              <input type="number" id="modelYili" placeholder="Model Yılı" value={modelYili} onChange={e => setModelYili(e.target.value)} className="bg-my-beyaz border p-2 rounded-md" />
               <input type="text" id="renk" placeholder="Rengi" value={renk} onChange={e => setRenk(e.target.value)} className="bg-my-beyaz border p-2 rounded-md" />
               <textarea placeholder="Adres" id="adres" value={adres} onChange={e => setAdres(e.target.value)} className="bg-my-beyaz border p-2 rounded-md" rows="3"></textarea>
               <textarea placeholder="Notlar" id="notlar" value={notlar} onChange={e => setNot(e.target.value)} className="bg-my-beyaz border p-2 rounded-md" rows="3"></textarea>
             </div>
-            <div className="flex justify-between mt-12">
+            <div className="flex justify-between mt-8">
               <button onClick={onClose} className="bg-my-açıkgri text-white font-semibold rounded-full p-2 pl-8 pr-8 ">
                 İptal
               </button>

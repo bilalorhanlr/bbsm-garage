@@ -52,7 +52,7 @@ const IkinciModal = ({ onIkinciModalClose, ilkModalBilgi, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center backdrop-blur-sm backdrop-brightness-30">
-      <div className="bg-white rounded-lg max-w-4xl w-full mx-4 md:mx-0">
+      <div className="bg-white rounded-3xl max-w-4xl w-full mx-4 md:mx-0">
         <div className="flex justify-between items-center p-5 border-b border-gray-200 ">
           <h3 className="text-xl font-medium text-gray-900">Kart Ekle - Aşama 2</h3>
           <button onClick={handleCloseAndClear}>
@@ -61,7 +61,7 @@ const IkinciModal = ({ onIkinciModalClose, ilkModalBilgi, onClose }) => {
               </svg>
             </button>
         </div>
-        <div className="p-5">
+        <div className="p-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <input
               type="number"
@@ -129,7 +129,7 @@ const IkinciModal = ({ onIkinciModalClose, ilkModalBilgi, onClose }) => {
               </tbody>
             </table>
           </div>
-          <div className="flex justify-end mt-4 space-x-2 ">
+          <div className="flex justify-end mt-8 space-x-2 ">
             <button onClick={onIkinciModalClose} className=" bg-gray-200 text-my-siyah font-semibold text-md rounded-full p-2 pl-6 pr-6 mr-10">
               Geri Dön
             </button>

@@ -21,6 +21,9 @@ export class CardEntity {
   km: number;
 
   @Column({ nullable: true })
+  modelYili: number;
+
+  @Column({ nullable: true })
   sasi: string;
 
   @Column({ nullable: true })

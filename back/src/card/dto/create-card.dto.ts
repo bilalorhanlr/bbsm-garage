@@ -5,6 +5,7 @@ export class CreateCardDto {
     markaModel: string;
     plaka: string;
     km: number;
+    modelYili: number;
     sasi: string;
     renk: string;
     girisTarihi: Date;
