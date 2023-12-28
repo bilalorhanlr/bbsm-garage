@@ -26,7 +26,7 @@ log(env);
       password: env.DB_PASS,
       database: env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true, // Set to false in production
+      synchronize: true,
     }),
     AuthModule,
     CardModule,

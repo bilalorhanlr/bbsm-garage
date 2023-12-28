@@ -7,11 +7,11 @@ export class YapilanlarEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => CardEntity) // Eğer kart ile ilişkilendirilecekse
-    @JoinColumn({ name: 'kart_id' })
-    kart: CardEntity;
+    @ManyToOne(() => CardEntity, card => card.yapilanlar, { nullable: true })
+    @JoinColumn({ name: 'card_id' })
+    card: CardEntity;
 
-    @ManyToOne(() => TeklifEntity) // Eğer teklif ile ilişkilendirilecekse
+    @ManyToOne(() => TeklifEntity, teklif => teklif.yapilanlar, { nullable: true })
     @JoinColumn({ name: 'teklif_id' })
     teklif: TeklifEntity;
 
@@ -24,7 +24,6 @@ export class YapilanlarEntity {
     @Column('decimal', { precision: 10, scale: 2 })
     fiyat: number;
 
-    @Column('decimal', { precision: 10, scale: 2 })
     get toplamFiyat(): number {
         return this.adet * this.fiyat;
     }

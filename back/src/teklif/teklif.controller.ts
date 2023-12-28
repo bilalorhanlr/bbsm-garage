@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException } from '@nestjs/common';
 import { TeklifService } from './teklif.service';
 import { CreateTeklifDto } from './dto/create-teklif.dto';
 import { UpdateTeklifDto } from './dto/update-teklif.dto';
@@ -10,6 +10,12 @@ export class TeklifController {
 
   @Post()
   create(@Body() createTeklifDto: TeklifEntity) {
+    if (isNaN(createTeklifDto.km)) {
+      throw new BadRequestException('km için geçersiz integer değeri');
+    }
+    if (isNaN(createTeklifDto.modelYili)) {
+      throw new BadRequestException('model yılı için geçersiz integer değeri');
+    }
     return this.teklifService.create(createTeklifDto);
   }
 

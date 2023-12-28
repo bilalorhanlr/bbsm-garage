@@ -1,7 +1,10 @@
+import { CreateYapilanlarDto } from "src/yapilanlar/dto/create-yapilanlar.dto";
+
 export class CreateCardDto {
 
+    card_id : number;
     adSoyad: string;
-    telNo: number;
+    telNo: string;
     markaModel: string;
     plaka: string;
     km: number;
@@ -11,5 +14,7 @@ export class CreateCardDto {
     girisTarihi: Date;
     notlar: string;
     adres: string;
+    yapilanlar: CreateYapilanlarDto[];
+
   }
   

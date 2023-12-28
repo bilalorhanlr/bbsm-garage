@@ -1,37 +1,45 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { YapilanlarEntity } from '../../yapilanlar/entities/yapilanlar.entity';
+
+import { Entity, Column, PrimaryGeneratedColumn,OneToMany } from 'typeorm';
 
 @Entity()
 export class TeklifEntity {
     @PrimaryGeneratedColumn()
     teklif_id: number;
 
-    @Column()
+    @Column({ nullable: true })
     adSoyad: string;
 
-    @Column()
-    telNo: number;
+    @Column({ nullable: true })
+    telNo: string;
 
-    @Column()
+    @Column({ nullable: true })
     markaModel: string;
 
-    @Column()
+    @Column({ nullable: true })
     plaka: string;
     
-    @Column()
+    @Column({ nullable: true })
     km: number;
 
-    @Column()
+    @Column({ nullable: true })
+    modelYili: number;
+
+    @Column({ nullable: true })
     sasi: string;
 
-    @Column()
+    @Column({ nullable: true })
     renk: string;
 
-    @Column()
+    @Column({ nullable: true })
     girisTarihi: Date;
 
-    @Column()
+    @Column({ nullable: true })
     notlar: string;
 
-    @Column()
+    @Column({ nullable: true })
     adres: string;
+
+    @OneToMany(() => YapilanlarEntity, yapilan => yapilan.teklif)
+    yapilanlar: YapilanlarEntity[];
 }

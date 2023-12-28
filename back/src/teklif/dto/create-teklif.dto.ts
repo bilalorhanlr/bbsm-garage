@@ -1,13 +1,17 @@
+import { CreateYapilanlarDto } from "src/yapilanlar/dto/create-yapilanlar.dto";
+
 export class CreateTeklifDto {
     
-    public adSoyad: string;
-    public telNo: number;
-    public markaModel: string;
-    public plaka: string;
-    public km: number;
-    public sasi: string;
-    public renk: string;
-    public girisTarihi: Date;
-    public notlar: string;
-    public adres: string;
+    adSoyad: string;
+    telNo: string;
+    markaModel: string;
+    plaka: string;
+    km: number;
+    modelYili: number;
+    sasi: string;
+    renk: string;
+    girisTarihi: Date;
+    notlar: string;
+    adres: string;
+    yapilanlar: CreateYapilanlarDto[];
 }

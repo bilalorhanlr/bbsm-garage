@@ -1,15 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { YapilanlarEntity } from 'src/yapilanlar/entities/yapilanlar.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn } from 'typeorm';
 
 @Entity()
 export class CardEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  card_id: number;
 
   @Column({ nullable: true })
   adSoyad: string;
 
   @Column({ nullable: true })
-  telNo: String;
+  telNo: string;
 
   @Column({ nullable: true })
   markaModel: string;
@@ -37,4 +38,8 @@ export class CardEntity {
 
   @Column({ nullable: true })
   adres: string;
+
+  @OneToMany(() => YapilanlarEntity, yapilan => yapilan.card)
+  yapilanlar: YapilanlarEntity[];
+
 }
