@@ -13,8 +13,8 @@ export default function bizeulasin() {
     return (
       <>
         <Head>
-          <title>BBSM Garage - Bize Ulaşın</title>
-          <link rel="icon" href="/public/bbsm.ico"/>
+          <title>ESES Garage - Bize Ulaşın</title>
+          <link rel="icon" href="/ESES.ico" /> {"/public/ESES.ico"}
         </Head>
 
         <aside className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} bg-white border-r border-gray-200 lg:translate-x-0`} aria-label="Sidebar">
@@ -49,8 +49,8 @@ export default function bizeulasin() {
                 <div className="flex items-center">
                   <button onClick={toggleMenu} className={`lg:hidden p-3 font-bold text-lg leading-tight antialiased ${isOpen && 'hidden'}`}><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
                   <a href="#" className="flex ml-2 md:mr-8 lg:mr-24">
-                  <img src="/images/bbsmlogo.webp" className="h-8 mr-3" alt="logo" />
-                  <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-my-siyah">BBSM GARAGE</span>
+                  <img src="/images/ESESlogo.webp" className="h-8 mr-3" alt="logo" />
+                  <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-my-siyah">ESES GARAGE</span>
                   </a>
                 </div>
                 <div className="flex items-center">
@@ -69,11 +69,11 @@ export default function bizeulasin() {
               <div className="grid gap-6 mt-8 mb-4 md:grid-cols-3 text-center">
                   <div className="w-full">
                     <p className="text-my-siyah font-bold mb-4">Firma Adı</p>
-                    <p className="text-my-beyaz shadow-lg bg-gradient-to-r from-blue-600 to-slate-800 p-2 text-center font-bold rounded-full">BBSM Technology</p>
+                    <p className="text-my-beyaz shadow-lg bg-gradient-to-r from-blue-600 to-slate-800 p-2 text-center font-bold rounded-full">ESES GARAGE</p>
                   </div>
                   <div className="w-full">
                     <p className="text-my-siyah font-bold mb-4">Web Sitemiz</p>
-                    <a className="text-my-beyaz shadow-lg bg-gradient-to-r from-amber-300 to-orange-600 pl-8 p-2 pr-8 text-center font-bold rounded-full" href="https://www.bbsm.tech">Tıkla</a>
+                    <a className="text-my-beyaz shadow-lg bg-gradient-to-r from-amber-300 to-orange-600 pl-8 p-2 pr-8 text-center font-bold rounded-full" href="http://www.esesgarage.com/">Tıkla</a>
                   </div>
                   <div className="w-full">
                     <p className="text-my-siyah font-bold mb-4">Telefon Numarası</p>

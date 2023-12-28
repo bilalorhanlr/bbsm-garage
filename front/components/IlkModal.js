@@ -1,4 +1,3 @@
-// IlkModal.js
 import React, { useState } from 'react';
 import './AnaBilesen.js';
 
@@ -16,7 +15,6 @@ const IlkModal = ({ onIlkModalClose, onIlkModalSubmit ,onClose}) => {
   const [notlar, setNot] = useState('');
 
   const handleIlkModalSubmit = () => {
-    // İlk modalın submit işlemleri burada yapılabilir
     const ilkModalBilgiler = {
       adSoyad,
       telNo,

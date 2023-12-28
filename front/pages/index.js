@@ -52,8 +52,8 @@ export default function Home() {
 
   return <>
     <Head>
-      <title>BBSM Garage</title>
-      <link rel="icon" href="/bbsm.ico" /> {"/public/bbsm.ico"}
+      <title>ESES Garage</title>
+      <link rel="icon" href="/ESES.ico" /> {"/public/ESES.ico"}
     </Head>
     <div className="bg-my-home bg-cover bg-center w-full h-200">
       <div className="absolute inset-0 flex items-center justify-center">

@@ -10,6 +10,24 @@ export default function Kartlar() {
   const [kartlar, setKartlar] = useState([]);
   const [secilenKartlar, setSecilenKartlar] = useState([]);
   const [aramaTerimi, setAramaTerimi] = useState('');
+  const [yapilanlar, setYapilanlar] = useState([]);
+
+
+  // const fetchYapilanlar = () => {
+  //   fetch(`http://localhost:4000/yapilanlar?card_id=146`, requestOptions)
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       if (Array.isArray(data)) {
+  //         setYapilanlar(data);
+  //       }
+  //     })
+  //     .catch(error => console.log('error', error));
+  // };
+
+  // useEffect(() => {
+  //   fetchStokListesi();
+  //   fetchYapilanlar(); // Yapılan işlemleri getir
+  // }, []);
 
 
 
@@ -17,22 +35,20 @@ export default function Kartlar() {
     if (e.target.checked) {
       setSecilenKartlar([...secilenKartlar, kartId]);
     } else {
-      setSecilenKartlar(secilenKartlar.filter(id => id !== kartId));
+      setSecilenKartlar(secilenKartlar.filter(card_id => card_id !== kartId));
     }
   };
 
   const silSecilenleri = async () => {
     try {
-      // Seçilen her bir kart ID'si için ayrı bir DELETE isteği gönder
       const deleteRequests = secilenKartlar.map(kartId =>
         fetch(`http://localhost:4000/card/${kartId}`, { method: 'DELETE' })
       );
       await Promise.all(deleteRequests);
 
-      // UI'dan silinen öğeleri kaldır
-      const guncellenmisKartlar = kartlar.filter(kart => !secilenKartlar.includes(kart.id));
+      const guncellenmisKartlar = kartlar.filter(kart => !secilenKartlar.includes(kart.card_id));
       setKartlar(guncellenmisKartlar);
-      setSecilenKartlar([]); // Seçimleri sıfırla
+      setSecilenKartlar([]);
     } catch (error) {
       console.error('Silme işlemi sırasında hata oluştu', error);
     }
@@ -45,16 +61,6 @@ export default function Kartlar() {
 
   const toggleYeniKartEkleModal = () => {
     setIsYeniKartEkleModalOpen(!isYeniKartEkleModalOpen);
-  };
-
-  const handleKartEkle = (yeniKart) => {
-    // Yeni kart ekleme işlemleri burada yapılacak
-    console.log('Yeni Kart:', yeniKart);
-    // Örneğin, yeni kartı bir veritabanına kaydetmek gibi işlemler burada gerçekleştirilebilir.
-    // ...
-
-    // Modal'ı kapat
-    toggleYeniKartEkleModal();
   };
 
   var requestOptions = {
@@ -85,6 +91,29 @@ export default function Kartlar() {
       });
     };
 
+    const handleKartEkle = async (yeniKart) => {
+      try {
+        const response = await fetch('http://localhost:4000/card', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(yeniKart),
+        });
+
+        if (response.ok) {
+          const eklenenKart = await response.json();
+          setKartlar([...kartlar, eklenenKart]);
+          toggleYeniKartEkleModal();
+        } else {
+          console.error('Kart eklenirken bir hata oluştu');
+        }
+      } catch (error) {
+        console.error('Kart eklenirken bir hata oluştu:', error);
+      }
+    };
+
+
     function formatKm(km) {
       return km.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     };
@@ -101,8 +130,8 @@ export default function Kartlar() {
   return (
     <>
       <Head>
-        <title>BBSM Garage - Kartlar</title>
-        <link rel="icon" href="/public/bbsm.ico" />
+        <title>ESES Garage - Kartlar</title>
+        <link rel="icon" href="/ESES.ico" /> {"/public/ESES.ico"}
       </Head>
 
       <aside className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} bg-white border-r border-gray-200 lg:translate-x-0`} aria-label="Sidebar">
@@ -137,8 +166,8 @@ export default function Kartlar() {
               <div className="flex items-center">
                 <button onClick={toggleSidebar} className={`lg:hidden p-3 font-bold text-lg leading-tight antialiased ${isSidebarOpen ? 'hidden' : ''}`}><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
                 <a href="#" className="flex ml-2 md:mr-8 lg:mr-24">
-                  <img src="/images/bbsmlogo.webp" className="h-8 mr-3" alt="logo" />
-                  <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-my-siyah">BBSM GARAGE</span>
+                  <img src="/images/ESESlogo.webp" className="h-8 mr-3" alt="logo" />
+                  <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-my-siyah">ESES GARAGE</span>
                 </a>
               </div>
               <div className="flex items-center">
@@ -177,7 +206,6 @@ export default function Kartlar() {
                     </div>
                   </div>
                 )}
-
                 <div className="pr-4 items-center pl-4">
                   <div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between">
                     <label htmlFor="table-search" className="sr-only">Search</label>
@@ -232,7 +260,7 @@ export default function Kartlar() {
                 <tr>
                   <td className="w-4 p-4">
                     <div className="flex items-center">
-                        <input type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" checked={secilenKartlar.includes(qwe.id)} onChange={(e) => handleCheckboxChange(e, qwe.id)}/>
+                        <input type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" checked={secilenKartlar.includes(qwe.card_id)} onChange={(e) => handleCheckboxChange(e, qwe.card_id)}/>
                         <label htmlFor={`checkbox-table-${index}`} className="sr-only">checkbox</label>
                       </div>
                   </td>
@@ -243,7 +271,7 @@ export default function Kartlar() {
                     {qwe.markaModel}
                   </td>
                   <td className="px-6 py-4 text-green-500">
-                    {qwe.plaka}
+                     {qwe.plaka}
                   </td>
                   <td className="px-6 py-4">
                     {formatKm(qwe.km)}
@@ -267,6 +295,41 @@ export default function Kartlar() {
           </div>
         </div>
       </div>
+
+      {/* <div className="p-6 pt-8 lg:ml-64 ">
+        <div className="p-6 mt-5 bg-my-beyaz rounded-3xl">
+          <h2 className="text-xl font-bold text-my-siyah mb-4">Yapılan İşlemler</h2>
+          <table className="w-full text-sm text-left text-gray-500 font-medium">
+            <thead className="text-xs text-gray-600 uppercase bg-my-edbeyaz">
+              <tr>
+                <th scope="col" className="px-6 py-3">İşlem ID</th>
+                <th scope="col" className="px-6 py-3">Parça Adı</th>
+                <th scope="col" className="px-6 py-3">Adet</th>
+                <th scope="col" className="px-6 py-3">Fiyat</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {yapilanlar.map(yapilan => (
+                <tr key={yapilan.id}>
+                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    {yapilan.id}
+                  </td>
+                  <td className="px-6 py-4">
+                    {yapilan.parcaAdi}
+                  </td>
+                  <td className="px-6 py-4">
+                    {yapilan.adet}
+                  </td>
+                  <td className="px-6 py-4">
+                    {yapilan.fiyat} TL
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div> */}
+      
     </>
   );
 }          

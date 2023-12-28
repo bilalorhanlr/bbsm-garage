@@ -1,9 +1,8 @@
-// AnaBilesen.js
 import React, { useState } from 'react';
 import IlkModal from './IlkModal';
 import IkinciModal from './IkinciModal';
 
-const AnaBilesen = ({onClose}) => {
+const AnaBilesen = ({onClose, onKartEkle}) => {
   const [ilkModalGorunur, setIlkModalGorunur] = useState(true);
   const [ikinciModalGorunur, setIkinciModalGorunur] = useState(false);
   const [girilenBilgi, setGirilenBilgi] = useState('');
@@ -42,6 +41,7 @@ const AnaBilesen = ({onClose}) => {
           ilkModalBilgi={girilenBilgi}
           onIkinciModalClose={handleIkinciModalClose}
           onClose={handleClose}
+          onKartEkle={onKartEkle}
         />
       )}
     </div>

@@ -1,15 +1,19 @@
-// IkinciModal.js
 import React, { useState } from 'react';
 import './IlkModal.js';
 import './AnaBilesen.js';
 
-const IkinciModal = ({ onIkinciModalClose, ilkModalBilgi, onClose }) => {
+const IkinciModal = ({ onIkinciModalClose, ilkModalBilgi, onClose , onKartEkle}) => {
   const [birimAdedi, setBirimAdedi] = useState('');
   const [parcaAdi, setParcaAdi] = useState('');
   const [birimFiyati, setBirimFiyati] = useState('');
   const [yapilanlar, setYapilanlar] = useState([]);
 
   const handleIkinciModalSubmit = () => {
+    if ((!birimAdedi && birimAdedi > 0) || !parcaAdi || (!birimFiyati && birimFiyati > 0)) {
+      alert("Lütfen tüm alanları doğru bir şekilde doldurun.");
+      return;
+    }
+
     const ikinciModalBilgiler = {
       birimAdedi,
       parcaAdi,
@@ -18,22 +22,23 @@ const IkinciModal = ({ onIkinciModalClose, ilkModalBilgi, onClose }) => {
     };
     setYapilanlar([...yapilanlar, ikinciModalBilgiler]);
 
-    if (!birimAdedi || !parcaAdi || !birimFiyati) {
-      alert("Lütfen tüm alanları doldurun.");
-      return;
-    }
-    if (birimAdedi && parcaAdi && birimFiyati) {
-      // setItems([...ilkModalBilgi, ikinciModalBilgiler]);
 
-      // Clear the input fields
+    if (birimAdedi && parcaAdi && birimFiyati) {
       setBirimAdedi('');
       setParcaAdi('');
       setBirimFiyati('');
     }
-    console.log("ilk,",ilkModalBilgi);
-    console.log("ikinci,",ikinciModalBilgiler);
-    console.log("yapılanlar",yapilanlar);
+    
   };
+
+  const handleSubmit = () => {
+    const yeniKart = {
+      ...ilkModalBilgi,
+      yapilanlar
+    };
+    onKartEkle(yeniKart); 
+  };
+
 
 
   const handleClearItems = () => {
@@ -103,8 +108,8 @@ const IkinciModal = ({ onIkinciModalClose, ilkModalBilgi, onClose }) => {
                   <th className="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Birim Fiyatı</th>
                   <th className="px-6 py-3 text-left font-medium text-gray-700 uppercase tracking-wider">Toplam Fiyat</th>
                   <th>
-                    <button onClick={handleClearItems} className="bg-red-500 text-white font-semibold text-md rounded-full p-2 pl-8 pr-8 mr-4">
-                      Tümünü Temizle
+                    <button onClick={handleClearItems} className="bg-red-500 text-white font-semibold text-md rounded-full m-2 pl-4 pr-4 p-2">
+                      Tümünü Sil
                     </button>
                   </th>
                   
@@ -141,8 +146,7 @@ const IkinciModal = ({ onIkinciModalClose, ilkModalBilgi, onClose }) => {
             {/* onclick eksik */}
               Teklif Olarak Kaydet
             </button>
-            <button className="bg-my-mavi text-white font-semibold text-md rounded-full p-2 pl-8 pr-8 mr-4">
-              {/* onclick eksik */}
+            <button onClick={handleSubmit} className="bg-my-mavi text-white font-semibold text-md rounded-full p-2 pl-8 pr-8 mr-4">
               Kaydet
             </button>
           </div>
