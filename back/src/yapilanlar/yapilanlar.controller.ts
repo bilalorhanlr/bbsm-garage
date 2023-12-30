@@ -8,12 +8,6 @@ export class YapilanlarController {
   
   @Post()
   create(@Body() createYapilanlarDto: CreateYapilanlarDto) {
-    if (isNaN(createYapilanlarDto.adet)) {
-      throw new BadRequestException('km için geçersiz integer değeri');
-    }
-    if (isNaN(createYapilanlarDto.fiyat)) {
-      throw new BadRequestException('model yılı için geçersiz integer değeri');
-    }
     return this.yapilanlarService.create(createYapilanlarDto);
   }
 

@@ -3,6 +3,7 @@ import { UpdateTeklifDto } from './dto/update-teklif.dto';
 import { TeklifEntity } from './entities/teklif.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { YapilanlarEntity } from 'src/yapilanlar/entities/yapilanlar.entity';
 
 @Injectable()
 export class TeklifService {

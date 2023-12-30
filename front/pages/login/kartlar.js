@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import AnaBilesen from '@/components/AnaBilesen';
+import { data } from 'autoprefixer';
 
 export default function Kartlar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -12,24 +13,26 @@ export default function Kartlar() {
   const [aramaTerimi, setAramaTerimi] = useState('');
   const [yapilanlar, setYapilanlar] = useState([]);
 
-
-  // const fetchYapilanlar = () => {
-  //   fetch(`http://localhost:4000/yapilanlar?card_id=146`, requestOptions)
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       if (Array.isArray(data)) {
-  //         setYapilanlar(data);
-  //       }
-  //     })
-  //     .catch(error => console.log('error', error));
-  // };
-
-  // useEffect(() => {
-  //   fetchStokListesi();
-  //   fetchYapilanlar(); // Yapılan işlemleri getir
-  // }, []);
+  var requestOptionsPost = {
+    method: 'GET',
+    redirect: 'follow'
+  };
 
 
+  const fetchYapilanlar = () => {
+    if (Array.isArray(data)) {
+      console.log(data);
+    }
+    console.log(data);
+    fetch(`http://localhost:4000/yapilanlar`, requestOptionsPost)
+      .then(response => response.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setYapilanlar(data);
+        }
+      })
+      .catch(error => console.log('error', error));
+  };
 
   const handleCheckboxChange = (e, kartId) => {
     if (e.target.checked) {
@@ -62,7 +65,6 @@ export default function Kartlar() {
   const toggleYeniKartEkleModal = () => {
     setIsYeniKartEkleModalOpen(!isYeniKartEkleModalOpen);
   };
-
   var requestOptions = {
     method: 'GET',
     redirect: 'follow'
@@ -81,6 +83,7 @@ export default function Kartlar() {
 
     useEffect(() => {
         fetchStokListesi();
+        fetchYapilanlar(); // Yapılan işlemleri getir
     }, []);
 
     function formatTarih(tarihString) {
@@ -296,7 +299,7 @@ export default function Kartlar() {
         </div>
       </div>
 
-      {/* <div className="p-6 pt-8 lg:ml-64 ">
+      <div className="p-6 pt-8 lg:ml-64 ">
         <div className="p-6 mt-5 bg-my-beyaz rounded-3xl">
           <h2 className="text-xl font-bold text-my-siyah mb-4">Yapılan İşlemler</h2>
           <table className="w-full text-sm text-left text-gray-500 font-medium">
@@ -328,7 +331,7 @@ export default function Kartlar() {
             </tbody>
           </table>
         </div>
-      </div> */}
+      </div> 
       
     </>
   );

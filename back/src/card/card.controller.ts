@@ -18,7 +18,7 @@ export class CardController {
     if (isNaN(createCardDto.modelYili)) {
       throw new BadRequestException('modelYili için geçersiz integer değeri');
     }
-    return this.cardService.create(createCardDto);
+    this.cardService.create(createCardDto);
   }
 
   @Get(':card_id/yapilanlar')

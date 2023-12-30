@@ -13,7 +13,7 @@ export class YapilanlarService {
   ) {}
 
   create(createYapilanlarDto: CreateYapilanlarDto) {
-    const yeniYapilanlar = this.databaseRepository.create(createYapilanlarDto);
+    let yeniYapilanlar = this.databaseRepository.create(createYapilanlarDto);
     return this.databaseRepository.save(yeniYapilanlar);
   }
 
@@ -22,7 +22,7 @@ export class YapilanlarService {
   }
 
   async findOne(id: number) {
-    const yapilanlar = await this.databaseRepository.findOne({ where: { id } });
+    let yapilanlar = await this.databaseRepository.findOne({ where: { id } });
     if (!yapilanlar) {
       throw new NotFoundException(`Yapılan işlem ID: ${id} bulunamadı.`);
     }
@@ -31,13 +31,13 @@ export class YapilanlarService {
   
 
   async update(id: number, updateYapilanlarDto: UpdateYapilanlarDto) {
-    const yapilanlar = await this.findOne(id);
+    let yapilanlar = await this.findOne(id);
     Object.assign(yapilanlar, updateYapilanlarDto);
     return this.databaseRepository.save(yapilanlar);
   }
 
   async remove(id: number) {
-    const yapilanlar = await this.findOne(id);
+    let yapilanlar = await this.findOne(id);
     return this.databaseRepository.remove(yapilanlar);
   }
 }

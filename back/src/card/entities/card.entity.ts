@@ -6,40 +6,43 @@ export class CardEntity {
   @PrimaryGeneratedColumn()
   card_id: number;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   adSoyad: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   telNo: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   markaModel: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   plaka: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'int', nullable: true })
   km: number;
 
-  @Column({ nullable: true })
+  @Column({ type: 'int', nullable: true })
   modelYili: number;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   sasi: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   renk: string;
 
-  @Column({ nullable: true })
-  girisTarihi: Date;
+  @Column({ type: 'text', nullable: true })
+  girisTarihi: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   notlar: string;
+  
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   adres: string;
 
-  @OneToMany(() => YapilanlarEntity, yapilan => yapilan.card)
+  @OneToMany(() => YapilanlarEntity, yapilan => yapilan.card ,{ nullable: true , cascade: true, onDelete: "CASCADE" })
   yapilanlar: YapilanlarEntity[];
 
 }
+
+

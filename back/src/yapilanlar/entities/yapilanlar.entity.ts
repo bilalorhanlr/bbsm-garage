@@ -15,14 +15,14 @@ export class YapilanlarEntity {
     @JoinColumn({ name: 'teklif_id' })
     teklif: TeklifEntity;
 
-    @Column()
-    adet: number;
+    @Column({ type: 'int', nullable: true })
+    adet: number;    
 
-    @Column()
+    @Column({ nullable: true })
     parcaAdi: string;
 
-    @Column('decimal', { precision: 10, scale: 2 })
-    fiyat: number;
+    @Column({ type: 'int', nullable: true })
+    fiyat: number;    
 
     get toplamFiyat(): number {
         return this.adet * this.fiyat;
